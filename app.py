@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-import cv2
-import dlib
 from scipy.spatial import distance as dist
 import time
 
