@@ -36,7 +36,8 @@ previous_blinks = 0
 
 # Timer settings
 last_timer_check = time.time()
-TIMER_INTERVAL = 20  # 5 minutes
+TIMER_INTERVAL = 300  # 5 minutes
+prior_brightness = 100
 
 # Start webcam capture
 cap = cv2.VideoCapture(0)
@@ -78,18 +79,23 @@ while True:
     if current_time - last_timer_check >= TIMER_INTERVAL:
         # Check if blink count has significantly decreased
         if previous_blinks > 0 and total_blinks < 0.5 * previous_blinks:
-            brightness = 25
+            if prior_brightness <= 25:
+                brightness = 25
+            else:
+                brightness = prior_brightness - 15
+                prior_brightness = brightness
+
             sbc.set_brightness(brightness)
-            try:
-                response = requests.post(BASE_URL + '/api/blink_analysis', json={
-                    "previous_blinks": previous_blinks,
-                    "current_blinks": total_blinks,
-                    "brightness": brightness
-                })
-                response.raise_for_status()
-                print(f"Posted blink data and set brightness to {brightness}%.")
-            except requests.RequestException as e:
-                print(f"Error sending data to Flask API: {e}")
+            # try:
+            #     response = requests.post(BASE_URL + '/api/blink_analysis', json={
+            #         "previous_blinks": previous_blinks,
+            #         "current_blinks": total_blinks,
+            #         "brightness": brightness
+            #     })
+            #     response.raise_for_status()
+            #     print(f"Posted blink data and set brightness to {brightness}%.")
+            # except requests.RequestException as e:
+            #     print(f"Error sending data to Flask API: {e}")
 
         # Update previous blink count and reset current count
         previous_blinks = total_blinks
@@ -99,11 +105,9 @@ while True:
     # Show the frame
     cv2.imshow('Blink Detection and Brightness Control', frame)
 
-    # Exit on 'q' key press
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release resources
 cap.release()
 cv2.destroyAllWindows()
 
