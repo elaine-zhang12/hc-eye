@@ -6,6 +6,30 @@ import requests
 
 BASE_URL = 'http://127.0.0.1:5000'
 
+HEAD_SIZE_LEVELS = {
+    "tiny": 5000,
+    "small": 7000,       
+    "medium": 10000,   
+    "large": 15000    
+}
+
+HEAD_SIZE_FONTS = {
+    "tiny": 32,
+    "small": 26,       
+    "medium": 21,   
+    "large": 16
+}
+
+def get_head_size_level(head_size):
+    if head_size < HEAD_SIZE_LEVELS["small"]:
+        return "tiny"
+    elif head_size < HEAD_SIZE_LEVELS["medium"]:
+        return "small"
+    elif head_size < HEAD_SIZE_LEVELS["large"]:
+        return "medium"
+    else:
+        return "large"
+
 # Function to compute the Eye Aspect Ratio (EAR)
 def calculate_ear(eye):
     # Compute the euclidean distances between the two sets of vertical eye landmarks (y-coordinates)
@@ -36,6 +60,9 @@ CONSECUTIVE_FRAMES = 2 # Number of consecutive frames below EAR threshold to con
 blink_counter = 0
 total_blinks = 0
 
+# track time for head size
+head_size_tracking = {}
+
 # Start webcam capture
 cap = cv2.VideoCapture(0)
 
@@ -50,6 +77,8 @@ while True:
     # Detect faces in the frame
     faces = face_detector(gray_frame)
 
+    current_time = time.time()
+
     for face in faces:
         # Detect facial landmarks
         landmarks = landmark_predictor(gray_frame, face)
@@ -63,12 +92,42 @@ while True:
         head_height = face.height()
         head_size = head_width * head_height
 
-        try:
-            response = requests.post(BASE_URL + '/api/head_size', json={"head_size": head_size})
-            response.raise_for_status()  # Check for successful request
-        except requests.RequestException as e:
-            print(f"Error sending data to Flask API: {e}")
+        # Determine the level of the current head size
+        current_level = get_head_size_level(head_size)
 
+        face_id = (face.left(), face.top(), face.right(), face.bottom())
+        if face_id not in head_size_tracking:
+            head_size_tracking[face_id] = {
+                "level": current_level,
+                "last_change_time": current_time
+            }
+
+        # Check if the level has changed
+        tracked_data = head_size_tracking[face_id]
+        if tracked_data["level"] != current_level:
+            # Level has changed; reset the timer
+            head_size_tracking[face_id] = {
+                "level": current_level,
+                "last_change_time": current_time
+            }
+        else:
+            # Level remains stable; check duration
+            duration = current_time - tracked_data["last_change_time"]
+            if duration > 10:  # Level stable for more than 10 seconds
+                # Send data to the endpoint
+                try:
+                    response = requests.post(BASE_URL + '/api/head_size', json={
+                        "head_size": head_size,
+                        "level": current_level,
+                        "font_size": HEAD_SIZE_FONTS[current_level]
+                    })
+                    response.raise_for_status()
+                    print(f"Posted head size: {head_size}, Level: {current_level}")
+                except requests.RequestException as e:
+                    print(f"Error sending data to Flask API: {e}")
+
+                # Update last_change_time to prevent repeated posts
+                head_size_tracking[face_id]["last_change_time"] = current_time
 
         # Calculate the EAR for both eyes
         left_ear = calculate_ear(left_eye)
