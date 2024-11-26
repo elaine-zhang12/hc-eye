@@ -1,10 +1,5 @@
 console.log("Script is connected!");
 
-const newDiv = document.createElement("div");
-newDiv.textContent = "Hello, this is dynamically added content!";
-document.body.appendChild(newDiv);
-
-
 let reading_passages = []
 let current_passage = ""
 async function fetchPassages() {
