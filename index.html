@@ -29,6 +29,13 @@
   </style>
 </head>
 <body>
+
+  <div class="button-container">
+    <button onclick="changePassage('0')">Passage 1</button>
+    <button onclick="changePassage('1')">Passage 2</button>
+    <button onclick="changePassage('2')">Passage 3</button>
+  </div>
+  
   <div class="text-display" id="textPassage">
   </div>
 
@@ -53,11 +60,8 @@
       }
     }
 
-    async function main(){
-      // Call the function
-      current_passage = await fetchPassages();
+    function displayPassage(current_passage) {
       console.log(current_passage)
-
       const parser = new DOMParser()
       const doc = parser.parseFromString(current_passage, 'text/html')
       const paragraphs = doc.querySelectorAll('p')
@@ -67,8 +71,22 @@
         const newParagraph = document.createElement('p');
         newParagraph.textContent = p.textContent;
         text_passage_display.appendChild(newParagraph);
-        })
+      })
     }
+
+    async function main(){
+      // Call the function
+      current_passage = await fetchPassages();
+      console.log(current_passage)
+      displayPassage(current_passage)
+    }
+
+    function changePassage(key){
+      current_passage_key = key 
+      current_passage = reading_passages[parseInt(current_passage_key)]
+      console.log("current passage" + current_passage)
+    }
+
     main()
   </script>
 </body>
