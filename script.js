@@ -55,6 +55,20 @@ async function fetchFontSize() {
     }
 }
 
+    const textBox = document.getElementById('textBox'); // Get the text box element
+    const backspaceCountDisplay = document.getElementById('backspaceCount'); // Get the backspace count display
+    let backspaceCount = 0; // Initialize backspace count
+
+    // Listen for keydown events on the text box
+    textBox.addEventListener('keydown', (event) => {
+        if (event.key === 'Backspace') {
+            backspaceCount++; // Increment backspace count
+            backspaceCountDisplay.textContent = `Backspace count: ${backspaceCount}`; // Update display
+        }
+    });
+    console.log("Backspace count: " + backspaceCount)
+
+
 async function main() {
     // Fetch and display the first passage initially
     const firstPassage = await fetchPassages();
@@ -62,12 +76,12 @@ async function main() {
         displayPassage(firstPassage);
     }
     const text_passage_display = document.getElementById('textPassage'); // Get the element
-    setInterval(() => {
-        const font_size = fetchFontSize(); // Function to fetch the font size
-        if (text_passage_display) { // Ensure the element exists
-            text_passage_display.style.fontSize = font_size; // Update the font size
-        }
+    setInterval(async () => {
+        const font_size = await fetchFontSize(); // Function to fetch the font size
+
+        text_passage_display.style.fontSize = font_size + 'px'; // Update the font size
     }, 5000); // Execute the code every 5000ms (5 seconds)
+    
 }
 
 main();
