@@ -78,7 +78,7 @@ while True:
     current_time = time.time()
     if current_time - last_timer_check >= TIMER_INTERVAL:
         # Check if blink count has significantly decreased
-        if previous_blinks > 0 and total_blinks < 0.5 * previous_blinks:
+        if previous_blinks > 0 and total_blinks < 0.75 * previous_blinks:
             if prior_brightness <= 25:
                 brightness = 25
             else:
@@ -86,16 +86,6 @@ while True:
                 prior_brightness = brightness
 
             sbc.set_brightness(brightness)
-            # try:
-            #     response = requests.post(BASE_URL + '/api/blink_analysis', json={
-            #         "previous_blinks": previous_blinks,
-            #         "current_blinks": total_blinks,
-            #         "brightness": brightness
-            #     })
-            #     response.raise_for_status()
-            #     print(f"Posted blink data and set brightness to {brightness}%.")
-            # except requests.RequestException as e:
-            #     print(f"Error sending data to Flask API: {e}")
 
         # Update previous blink count and reset current count
         previous_blinks = total_blinks

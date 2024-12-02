@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-from scipy.spatial import distance as dist
 from flask_cors import CORS
 
 app = Flask(__name__)
