@@ -34,61 +34,13 @@
     <button onclick="changePassage('0')">Passage 1</button>
     <button onclick="changePassage('1')">Passage 2</button>
     <button onclick="changePassage('2')">Passage 3</button>
+    <button onclick="changePassage('3')">Passage 4</button>
+    <button onclick="changePassage('4')">Passage 5</button>
+    <button onclick="changePassage('5')">Passage 6</button>
   </div>
   
   <div class="text-display" id="textPassage">
   </div>
-
-  <!-- <script >
-    reading_passages = []
-    current_passage = ""
-    async function fetchPassages() {
-      try {
-        const response = await fetch('./passages.json');
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        const reading_passages = await response.json();
-        console.log(reading_passages); // JSON data as a JavaScript object
-
-        // Access current_passage after data is fetched
-        const current_passage = reading_passages[1]["text"];
-        console.log(current_passage)
-        return current_passage; // Now this will work as expected
-      } catch (error) {
-        console.error('Error fetching the JSON file:', error);
-      }
-    }
-
-    function displayPassage(current_passage) {
-      console.log(current_passage)
-      const parser = new DOMParser()
-      const doc = parser.parseFromString(current_passage, 'text/html')
-      const paragraphs = doc.querySelectorAll('p')
-      const text_passage_display = document.getElementById("textPassage")
-      text_passage_display.innerHTML = "";
-      paragraphs.forEach(p => {
-        const newParagraph = document.createElement('p');
-        newParagraph.textContent = p.textContent;
-        text_passage_display.appendChild(newParagraph);
-      })
-    }
-
-    async function main(){
-      // Call the function
-      current_passage = await fetchPassages();
-      console.log(current_passage)
-      displayPassage(current_passage)
-    }
-
-    function changePassage(key){
-      current_passage_key = key 
-      current_passage = reading_passages[parseInt(current_passage_key)]
-      console.log("current passage" + current_passage)
-    }
-
-    main()
-  </script> -->
 
   <script src="script.js"></script></body>
 </html>
