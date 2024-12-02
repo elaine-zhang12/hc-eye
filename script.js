@@ -1,43 +1,3 @@
-// console.log("Script is connected!");
-
-// let reading_passages = []
-// let current_passage = ""
-// async function fetchPassages() {
-//     try {
-//     const response = await fetch('./passages.json');
-//     if (!response.ok) {
-//         throw new Error('Network response was not ok ' + response.statusText);
-//     }
-//     const reading_passages = await response.json();
-//     console.log("reading_passage", reading_passages); // JSON data as a JavaScript object
-
-//     // Access current_passage after data is fetched
-//     const current_passage = reading_passages[0]["text"];
-//     console.log("current_passage in fetchPassages", current_passage)
-//     return current_passage; // Now this will work as expected
-//     } catch (error) {
-//     console.error('Error fetching the JSON file:', error);
-//     }
-// }
-
-// async function main(){
-//     // Call the function
-//     current_passage = await fetchPassages();
-//     console.log("current_passage in main", current_passage)
-
-//     const parser = new DOMParser()
-//     const doc = parser.parseFromString(current_passage, 'text/html')
-//     const paragraphs = doc.querySelectorAll('p')
-//     const text_passage_display = document.getElementById("textPassage")
-//     text_passage_display.innerHTML = "";
-//     paragraphs.forEach(p => {
-//     const newParagraph = document.createElement('p');
-//     newParagraph.textContent = p.textContent;
-//     text_passage_display.appendChild(newParagraph);
-//     })
-// }
-// main()
-
 console.log('Script is connected!');
 
 let reading_passages = [];
@@ -79,12 +39,35 @@ function changePassage(index) {
     displayPassage(selectedPassage);
 }
 
+async function fetchFontSize() {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/get_font_size');
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        font_size_response = await response.json();
+        console.log(font_size_response)
+
+        // Return the first passage initially
+        return font_size_response["font_size"];
+    } catch (error) {
+        console.error('Error fetching the font size:', error);
+    }
+}
+
 async function main() {
     // Fetch and display the first passage initially
     const firstPassage = await fetchPassages();
     if (firstPassage) {
         displayPassage(firstPassage);
     }
+    const text_passage_display = document.getElementById('textPassage'); // Get the element
+    setInterval(() => {
+        const font_size = fetchFontSize(); // Function to fetch the font size
+        if (text_passage_display) { // Ensure the element exists
+            text_passage_display.style.fontSize = font_size; // Update the font size
+        }
+    }, 5000); // Execute the code every 5000ms (5 seconds)
 }
 
 main();
