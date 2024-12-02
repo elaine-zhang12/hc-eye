@@ -78,7 +78,7 @@ while True:
     current_time = time.time()
     if current_time - last_timer_check >= TIMER_INTERVAL:
         # Check if blink count has significantly decreased
-        if previous_blinks > 0 and total_blinks < 0.5 * previous_blinks:
+        if previous_blinks > 0 and total_blinks < 0.75 * previous_blinks:
             if prior_brightness <= 25:
                 brightness = 25
             else:
