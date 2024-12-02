@@ -8,9 +8,9 @@ BASE_URL = 'http://127.0.0.1:5000'
 
 HEAD_SIZE_LEVELS = {
     "tiny": 5000,
-    "small": 7000,       
-    "medium": 10000,   
-    "large": 15000    
+    "small": 10000,       
+    "medium": 15000,   
+    "large": 25000    
 }
 
 HEAD_SIZE_FONTS = {
@@ -84,7 +84,7 @@ while True:
         else:
             # Level remains stable; check duration
             duration = current_time - tracked_data["last_change_time"]
-            if duration > 10:  # Level stable for more than 10 seconds
+            if duration > 7:  # Level stable for more than 7 seconds
                 # Send data to the endpoint
                 try:
                     response = requests.post(BASE_URL + '/api/head_size', json={

@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from scipy.spatial import distance as dist
-import time
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 current_head_size = 222250
 current_font_size = 16
