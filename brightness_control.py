@@ -86,16 +86,6 @@ while True:
                 prior_brightness = brightness
 
             sbc.set_brightness(brightness)
-            # try:
-            #     response = requests.post(BASE_URL + '/api/blink_analysis', json={
-            #         "previous_blinks": previous_blinks,
-            #         "current_blinks": total_blinks,
-            #         "brightness": brightness
-            #     })
-            #     response.raise_for_status()
-            #     print(f"Posted blink data and set brightness to {brightness}%.")
-            # except requests.RequestException as e:
-            #     print(f"Error sending data to Flask API: {e}")
 
         # Update previous blink count and reset current count
         previous_blinks = total_blinks
