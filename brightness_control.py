@@ -84,7 +84,7 @@ while True:
             else:
                 brightness = prior_brightness - 15
                 prior_brightness = brightness
-
+            print("Brightness: ", brightness)
             sbc.set_brightness(brightness)
 
         # Update previous blink count and reset current count
