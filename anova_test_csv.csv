@@ -1,0 +1,25 @@
+participant_code,condition,start_cvs_score,end_cvs_score,difference_cvs_score,backspace_count,ratio_backspace_word_count,word_count,percent_change_word_count
+P0,No Change,2,4,2,177,0.2748447205,644,0
+P0,Font Size,4,7,3,209,0.3055555556,684,6.2
+P0,Brightness,1,1,0,196,0.2308598351,849,24.1
+P1,No Change,1,2,1,150,0.1533742331,978,0
+P1,Brightness,0,1,1,173,0.1582799634,1093,11.8
+P1,Font Size,0,0,0,156,0.1563126253,998,2.04
+P2,Font Size,0,0,0,108,0.1583577713,682,-9.18
+P2,Brightness,0,8,8,116,0.1647727273,704,-6.3
+P2,No Change,1,0,-1,99,0.1318242344,751,0
+P3,Font Size,2,6,4,146,0.1970310391,741,-18.2
+P3,No Change,0,6,6,161,0.1777041943,906,0
+P3,Brightness,2,5,3,259,0.2737843552,946,4.42
+P4,Brightness,1,7,6,159,0.1985018727,801,24.8
+P4,Font Size,1,7,6,111,0.157223796,706,9.97
+P4,No Change,2,8,6,99,0.1542056075,642,0
+P5,Brightness,0,4,4,176,0.3384615385,520,-10.03
+P5,No Change,2,7,5,164,0.2837370242,578,0
+P5,Font Size,1,2,1,88,0.1396825397,630,9
+P6,No Change,0,5,5,204,0.2712765957,752,0
+P6,Font Size,1,3,2,258,0.3926940639,657,-12.63
+P6,Brightness,0,1,1,214,0.2641975309,810,7.7
+P7,No Change,0,6,6,187,0.1904276986,982,0
+P7,Brightness,0,2,2,198,0.2071129707,956,-2.6
+P7,Font Size,1,5,4,308,0.3311827957,930,-5.3
